@@ -51,15 +51,15 @@ find(
 
             my $rel   = File::Spec->abs2rel($path, $abs_root);
             my $depth = $rel eq '.' ? 0 : scalar(split(/[\/\\]/, $rel));    # глубина для отступа
-            my $name  = $_;
+            my $indent = '  ' x $depth;
 
             if (-d $path) {
-                print((' ' x $depth) . "[DIR] $name\n");
+                print($indent . "[DIR] $rel\n");
                 return;
             }
 
             return unless -f $path;
-            print((' ' x $depth) . "$name\n");
+            print($indent . "$rel\n");
 
             open my $fh, '<', $path or do {
                 warn "Could not open $path: $!\n";
@@ -71,7 +71,7 @@ find(
             close $fh;
 
             my $count = () = $content =~ /$regex/g;    # подсчет вхождений
-            push @report, [$path, $count] if $count;
+            push @report, [$rel, $count] if $count;
         },
         no_chdir => 1,
     },

@@ -28,11 +28,15 @@ sub roman_to_arabic {                     # конвертация римско�
         X => 10,   V => 5,   I => 1
     );
 
-    my @chars = split //, uc $roman;
+    my $upper = uc $roman;
+    return undef unless $upper =~ /^[MDCLXVI]+$/;        # отсекаем любые другие символы
+
+    my @chars = split //, $upper;
     my $total = 0;
     for my $i (0 .. $#chars) {
-    my $current = $value{$chars[$i]} || return undef;    # неверный символ -> undef
-        my $next    = $value{$chars[$i + 1]} || 0;
+        my $current = $value{$chars[$i]};
+        return undef unless defined $current;               # неверный символ -> undef
+        my $next = ($i < $#chars) ? ($value{$chars[$i + 1]} // 0) : 0;    # избегаем предупреждений на последнем символе
         $total += ($current < $next) ? -$current : $current;
     }
     return $total;
@@ -67,11 +71,12 @@ usage() unless defined $input && length $input;
 -f $input or die "Input file not found: $input\n";
 
 my $content = slurp_file($input);
-my $roman_pattern = qr/\b(?i:M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))\b/;
+my $roman_pattern = qr/\b(?=[MDCLXVI])(?i:M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))\b/;
 
 $content =~ s/$roman_pattern/
-    my $arabic = roman_to_arabic($1 // $&);
-    defined $arabic ? $arabic : $&
+    my $match  = $&;
+    my $arabic = roman_to_arabic($match);
+    defined $arabic ? $arabic : $match
 /eg;
 
 if ($output) {
@@ -80,4 +85,5 @@ if ($output) {
 } else {
     binmode(STDOUT, ':raw');
     print $content;
+    print "\n";    # добавляем пустую строку после последней строки вывода
 }

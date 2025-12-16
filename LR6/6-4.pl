@@ -8,9 +8,10 @@ sub usage {
     print <<"USAGE";
 Usage: perl $0 --file <input> --from <encoding> --to <encoding> [--out <output>]
     --file, -f   Input filename
-    --from       Source encoding (win1251 | koi8-r)
-    --to         Target encoding (koi8-r | cp866)
-    --out,  -o   Output filename (prints to STDOUT if omitted)
+    --from       Source encoding (win1251 | koi8-r | utf-8)
+    --to         Target encoding (koi8-r | cp866 | utf-8)
+    --out,  -o   Output filename (prints readable UTF-8 to STDOUT if omitted)
+    Подсказка: авто-определения нет, указывайте корректную исходную кодировку.
 USAGE
     exit 1;
 }
@@ -29,6 +30,7 @@ sub normalize_encoding {                       # приведение назва
     return 'windows-1251' if $enc =~ /^(win(dows)?-?1251)$/;
     return 'koi8-r'       if $enc =~ /^koi8-?r$/;
     return 'cp866'        if $enc =~ /^(866|cp866|dos866|dos-?866)$/;
+    return 'utf-8'        if $enc =~ /^utf-?8$/;
     return undef;
 }
 
@@ -73,9 +75,15 @@ die "Unknown target encoding\n" unless $to;
 my %allowed = (
     'windows-1251-koi8-r' => 1,
     'koi8-r-cp866'        => 1,
+    # Дополнительные удобные переходы для терминала/подготовки данных
+    'utf-8-koi8-r'        => 1,
+    'utf-8-cp866'         => 1,
+    'utf-8-windows-1251'  => 1,
+    'koi8-r-utf-8'        => 1,
+    'windows-1251-utf-8'  => 1,
 );
 my $pair_key = "$from-$to";
-die "Unsupported conversion for this task (allowed: win1251->koi8-r or koi8-r->cp866)\n"
+die "Unsupported conversion for this task (allowed: win1251->koi8-r, koi8-r->cp866, plus optional utf-8 helpers)\n"
   unless $allowed{$pair_key};
 
 my $raw      = slurp_file($input);
@@ -86,6 +94,10 @@ if ($output) {
     write_file($output, $encoded);
     print "Converted file written to $output\n";
 } else {
-    binmode(STDOUT, ':raw');
-    print $encoded;
+    # Для читаемого просмотра в UTF-8 терминале выводим результат обратно в UTF-8,
+    # сами байты целевой кодировки можно сохранить через --out.
+    binmode(STDOUT, ':encoding(UTF-8)');
+    my $preview = decode($to, $encoded);
+    print $preview;
+    print "\n";
 }
