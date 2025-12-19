@@ -47,7 +47,7 @@ find(
     {
         wanted => sub {
             my $path = $File::Find::name;
-            return if $path eq $abs_root;    # already printed root
+            return if $path eq $abs_root;    # корень уже напечатан
 
             my $rel   = File::Spec->abs2rel($path, $abs_root);
             my $depth = $rel eq '.' ? 0 : scalar(split(/[\/\\]/, $rel));    # глубина для отступа
@@ -62,7 +62,7 @@ find(
             print($indent . "$rel\n");
 
             open my $fh, '<', $path or do {
-                warn "Could not open $path: $!\n";
+                warn "Could not open $path: $!\n";    # предупреждение и продолжение обхода
                 return;
             };
             binmode($fh, ':raw');

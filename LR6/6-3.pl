@@ -71,7 +71,7 @@ usage() unless defined $input && length $input;
 -f $input or die "Input file not found: $input\n";
 
 my $content = slurp_file($input);
-my $roman_pattern = qr/\b(?=[MDCLXVI])(?i:M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))\b/;
+my $roman_pattern = qr/\b(?=[MDCLXVI])(?i:M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3}))\b/;    # валидные римские числа до 3999
 
 $content =~ s/$roman_pattern/
     my $match  = $&;

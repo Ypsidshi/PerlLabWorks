@@ -12,8 +12,4 @@ fifty two: 52
 
 twenty twenty five: 2025
 
-new:
-
-999
-
-4999
+NINE

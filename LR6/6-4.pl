@@ -8,8 +8,8 @@ sub usage {
     print <<"USAGE";
 Usage: perl $0 --file <input> --from <encoding> --to <encoding> [--out <output>]
     --file, -f   Input filename
-    --from       Source encoding (win1251 | koi8-r | utf-8)
-    --to         Target encoding (koi8-r | cp866 | utf-8)
+    --from       Source encoding (win1251 | koi8-r | cp866 | utf-8)
+    --to         Target encoding (win1251 | koi8-r | cp866 | utf-8)
     --out,  -o   Output filename (prints readable UTF-8 to STDOUT if omitted)
     Подсказка: авто-определения нет, указывайте корректную исходную кодировку.
 USAGE
@@ -60,9 +60,9 @@ GetOptions(
     'out|o=s'  => \$output,
 ) or usage();
 
-$input ||= prompt("Enter input filename: ");
-$from  ||= prompt("Enter source encoding (win1251 or koi8-r): ");
-$to    ||= prompt("Enter target encoding (koi8-r or cp866): ");
+$input ||= prompt("Enter input filename: ");                     # имя файла
+$from  ||= prompt("Enter source encoding (win1251, koi8-r, cp866, utf-8): ");    # исходная кодировка
+$to    ||= prompt("Enter target encoding (win1251, koi8-r, cp866, utf-8): ");    # целевая кодировка
 
 $from = normalize_encoding($from);
 $to   = normalize_encoding($to);
@@ -73,22 +73,28 @@ die "Unknown source encoding\n" unless $from;
 die "Unknown target encoding\n" unless $to;
 
 my %allowed = (
+    # Основные по заданию
     'windows-1251-koi8-r' => 1,
     'koi8-r-cp866'        => 1,
-    # Дополнительные удобные переходы для терминала/подготовки данных
+    # Дополнительные переходы для удобства проверки и возврата в UTF-8
     'utf-8-koi8-r'        => 1,
     'utf-8-cp866'         => 1,
     'utf-8-windows-1251'  => 1,
     'koi8-r-utf-8'        => 1,
     'windows-1251-utf-8'  => 1,
+    'cp866-utf-8'         => 1,
+    'cp866-koi8-r'        => 1,
+    'koi8-r-windows-1251' => 1,
+    'cp866-windows-1251'  => 1,
+    'windows-1251-cp866'  => 1,
 );
 my $pair_key = "$from-$to";
-die "Unsupported conversion for this task (allowed: win1251->koi8-r, koi8-r->cp866, plus optional utf-8 helpers)\n"
+die "Unsupported conversion (allowed: win1251/koi8-r/cp866/utf-8 взаимно, с упором на win1251->koi8-r и koi8-r->cp866)\n"
   unless $allowed{$pair_key};
 
 my $raw      = slurp_file($input);
-my $decoded  = decode($from, $raw);
-my $encoded  = encode($to, $decoded);
+my $decoded  = decode($from, $raw);      # байты -> внутренний Unicode Perl
+my $encoded  = encode($to, $decoded);    # Unicode -> байты целевой кодировки
 
 if ($output) {
     write_file($output, $encoded);

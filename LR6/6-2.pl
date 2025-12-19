@@ -23,8 +23,8 @@ sub arabic_to_roman {                    # перевод арабского ч�
     my ($number) = @_;
     return undef if !defined $number || $number < 1 || $number > 3999;
 
-    my @values = (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1);
-    my @roman  = qw(M CM D CD C XC L XL X IX V IV I);
+    my @values = (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1);    # номиналы
+    my @roman  = qw(M CM D CD C XC L XL X IX V IV I);                       # соответствующие символы
     my $result = q{};
 
     for my $i (0 .. $#values) {
@@ -65,6 +65,7 @@ usage() unless defined $input && length $input;
 -f $input or die "Input file not found: $input\n";
 
 my $content = slurp_file($input);
+# \b ограничивает числа целыми словами, чтобы не трогать цифры внутри слов
 $content =~ s/\b(\d+)\b/
     my $roman = arabic_to_roman($1);
     defined $roman ? $roman : $1;
