@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Открытка (CGI)</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Открытка (пример CGI)</h1>
+    <p><a href="/index.html">На главную</a></p>
+
+    <div id="error" class="error" style="display:none;">Введите имя отправителя.</div>
+
+    <form class="card" action="/cgi-bin/postcard.pl" method="post">
+      <label for="regname">Ваше имя</label>
+      <input id="regname" name="regname" required>
+
+      <label for="who">Кому</label>
+      <select id="who" name="who">
+        <option value="friend">Другу</option>
+        <option value="colleague">Коллеге</option>
+        <option value="family">Семье</option>
+      </select>
+
+      <label for="holyday">Праздник</label>
+      <select id="holyday" name="holyday">
+        <option value="newyear">Новый год</option>
+        <option value="birthday">День рождения</option>
+        <option value="valentine">День Валентина</option>
+      </select>
+
+      <button type="submit">Сгенерировать</button>
+    </form>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('err') === '1') {
+      document.getElementById('error').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

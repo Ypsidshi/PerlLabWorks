@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Поиск объявлений</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Поиск объявлений</h1>
+    <p><a href="/index.html">На главную</a></p>
+
+    <form class="card" action="/cgi-bin/search.pl" method="get">
+      <label for="q">Ключевые слова</label>
+      <input id="q" name="q" placeholder="например, ноутбук или комната">
+
+      <label for="category">Категория</label>
+      <select id="category" name="category">
+        <option value="">Любая</option>
+        <option value="Электроника">Электроника</option>
+        <option value="Недвижимость">Недвижимость</option>
+        <option value="Музыка">Музыка</option>
+        <option value="Работа">Работа</option>
+        <option value="Услуги">Услуги</option>
+        <option value="Другое">Другое</option>
+      </select>
+
+      <label for="city">Город</label>
+      <input id="city" name="city" placeholder="например, Пермь">
+
+      <button type="submit">Найти</button>
+    </form>
+  </div>
+</body>
+</html>

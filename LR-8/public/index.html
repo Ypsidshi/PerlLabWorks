@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Доска объявлений</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Доска объявлений</h1>
+    <p class="lead">Главная форма навигации по сайту.</p>
+
+    <form class="card" action="/cgi-bin/router.pl" method="get">
+      <label for="action">Выберите раздел:</label>
+      <select id="action" name="action" required>
+        <option value="list">Список объявлений</option>
+        <option value="add">Добавить объявление</option>
+        <option value="search">Поиск объявлений</option>
+        <option value="postcard">Открытка (пример CGI)</option>
+        <option value="hello">Простейший CGI</option>
+      </select>
+      <button type="submit">Перейти</button>
+    </form>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Добавление объявления</h3>
+        <p>Форма отправляет данные на сервер (CGI).</p>
+        <a class="btn" href="/add.html">Открыть форму</a>
+      </div>
+      <div class="card">
+        <h3>Поиск</h3>
+        <p>Форма поиска по базе объявлений.</p>
+        <a class="btn" href="/search.html">Открыть форму</a>
+      </div>
+      <div class="card">
+        <h3>Пример CGI</h3>
+        <p>Открытка генерируется на сервере.</p>
+        <a class="btn" href="/postcard.html">Открыть форму</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

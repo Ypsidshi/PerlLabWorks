@@ -1,0 +1,148 @@
+:root {
+  --bg: #f5f2ea;
+  --card: #ffffff;
+  --text: #1f1f1f;
+  --muted: #6b6b6b;
+  --accent: #2c6e49;
+  --accent-2: #d68c45;
+  --border: #e2ddd2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "PT Sans", Arial, sans-serif;
+  background: radial-gradient(circle at 10% 10%, #fff8e8 0%, var(--bg) 60%);
+  color: var(--text);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.lead {
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+button, .btn {
+  margin-top: 14px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+button:hover, .btn:hover {
+  background: #23553a;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.price {
+  font-weight: 700;
+  color: var(--accent-2);
+}
+
+.contact {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.error {
+  background: #ffe5e5;
+  border: 1px solid #ffb3b3;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.success {
+  background: #e7f7e7;
+  border: 1px solid #bfe6bf;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.postcard {
+  display: grid;
+  gap: 12px;
+  align-items: center;
+}
+
+.postcard-img {
+  width: 140px;
+  height: 140px;
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 26px;
+  }
+}

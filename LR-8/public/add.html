@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Добавить объявление</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Добавить объявление</h1>
+    <p><a href="/index.html">На главную</a></p>
+
+    <form class="card" action="/cgi-bin/add.pl" method="post">
+      <label for="title">Название</label>
+      <input id="title" name="title" required>
+
+      <label for="category">Категория</label>
+      <select id="category" name="category" required>
+        <option value="Электроника">Электроника</option>
+        <option value="Недвижимость">Недвижимость</option>
+        <option value="Музыка">Музыка</option>
+        <option value="Работа">Работа</option>
+        <option value="Услуги">Услуги</option>
+        <option value="Другое">Другое</option>
+      </select>
+
+      <label for="price">Цена (₽)</label>
+      <input id="price" name="price" type="number" min="0" step="100">
+
+      <label for="city">Город</label>
+      <input id="city" name="city" required>
+
+      <label for="contact">Контакт</label>
+      <input id="contact" name="contact" required>
+
+      <label for="description">Описание</label>
+      <textarea id="description" name="description" rows="4"></textarea>
+
+      <button type="submit">Опубликовать</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+ЛР8 — пояснения (доска объявлений)
+
+1) Как организована база данных
+База данных — это простой текстовый файл TSV: /var/www/lr8/data/ads.tsv.
+Каждая строка — одно объявление, поля разделены табуляцией:
+  id, title, category, price, city, contact, description, date
+Это «файловая БД»: без отдельного сервера, легко читать/писать. CGI-скрипт
+/var/www/lr8/cgi-bin/add.pl добавляет строку, а list.pl и search.pl читают и
+фильтруют данные. Для лабы это соответствует требованию «несложной БД».
+
+2) Что используется как база знаний
+Отдельной «базы знаний» нет. В роли базы знаний выступает сама БД объявлений
+(ads.tsv) + правила обработки в коде (Board::Storage.pm):
+- нормализация полей
+- чтение записей
+- поиск по ключевым словам/категории/городу
+
+3) Как работает проект (упрощённая схема)
+1. Браузер открывает /index.html (статическая главная форма).
+2. Формы отправляют данные на CGI:
+   - /cgi-bin/add.pl (POST) — добавить объявление в ads.tsv
+   - /cgi-bin/search.pl (GET) — поиск по БД
+   - /cgi-bin/list.pl (GET) — вывод всех объявлений
+   - /cgi-bin/postcard.pl (POST) — динамическая «открытка»
+3. Nginx принимает запрос и передаёт его в fcgiwrap через FastCGI.citeturn0search0turn1search0
+4. fcgiwrap запускает Perl‑скрипт и возвращает ответ обратно Nginx.citeturn1search0
+5. Nginx отдаёт HTML браузеру.
+
+4) Что такое Nginx
+Nginx — это веб‑сервер и reverse proxy, умеющий раздавать статические файлы,
+проксировать запросы и работать с FastCGI.citeturn0search1turn0search4
+
+5) Про CGI (контекст)
+CGI — это стандартный интерфейс, позволяющий веб‑серверу запускать внешние
+программы и передавать им параметры запроса.citeturn0search2turn0search3
+В Perl для CGI используется модуль CGI.pm (обработка параметров, заголовков).citeturn1search3
+
+6) Полезные источники для изучения
+Официальные и справочные материалы:
+- Nginx: главная и документация.citeturn0search1turn0search4
+- Nginx Beginner’s Guide (конфиги, FastCGI).citeturn0search0
+- fcgiwrap (manpage): как работает CGI через FastCGI.citeturn1search0
+- fcgiwrap (Debian): краткое описание пакета.citeturn1search2
+- CGI.pm (Perl): документация модуля.citeturn1search3
+- CGI стандарт RFC 3875.citeturn0search2turn0search3
+
+Ссылки (для копирования в браузер):
+- https://nginx.org/
+- https://nginx.org/en/docs/
+- https://nginx.org/en/docs/beginners_guide.html
+- https://manpages.debian.org/unstable/fcgiwrap/fcgiwrap.8.en.html
+- https://packages.debian.org/ru/sid/fcgiwrap
+- https://metacpan.org/pod/CGI
+- https://www.rfc-editor.org/rfc/rfc3875
