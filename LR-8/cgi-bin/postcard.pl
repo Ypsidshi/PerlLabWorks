@@ -40,11 +40,11 @@ print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\
 print "<link rel=\"stylesheet\" href=\"/styles.css\">\n";
 print "<title>Открытка</title>\n</head>\n<body>\n";
 print "<div class=\"container\">\n";
-print "<h1>Greetings!</h1>\n";
+print "<h1>Поздравление!</h1>\n";
 print "<div class=\"card postcard\">\n";
 print "<img class=\"postcard-img\" src=\"$img_src\" alt=\"$holyday_text\">\n";
-print "<h2>Dear $adresat, $holyday_text!</h2>\n";
-print "<p>Best regards, " . escapeHTML($sender) . "</p>\n";
+print "<h2>Дорогой $adresat, $holyday_text!</h2>\n";
+print "<p>С лучшими пожеланиями, " . escapeHTML($sender) . "</p>\n";
 print "</div>\n";
 print "<p><a href=\"/postcard.html\">Создать еще</a> · <a href=\"/index.html\">На главную</a></p>\n";
 print "</div>\n</body>\n</html>\n";
